@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f5f0">
+    <meta
+      name="description"
+      content="Le carnet visuel de h0p3_lemoi : croquis, expériences et petites choses à venir."
+    >
+    <title>ArtHop3 — carnet visuel</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body id="top">
+    <header class="site-header">
+      <!-- Keep the colorway control separate so the hand-drawn mark stays centered. -->
+      <button class="theme-button" id="theme-button" type="button" aria-label="Changer l’arrière-plan">
+        <span id="theme-label">fond 01 / 10</span>
+        <span aria-hidden="true">↻</span>
+      </button>
+      <span class="sr-only" id="theme-status" aria-live="polite">Fond 1 sur 10 : papier clair</span>
+      <a class="brand" href="#top" aria-label="ArtHop3, accueil">
+        <span class="brand-name">ArtHop3</span>
+      </a>
+      <svg class="monogram" viewBox="0 0 150 100" role="img" aria-labelledby="monogram-title">
+        <title id="monogram-title">Monogramme HE dessiné à la main</title>
+        <path class="monogram-outline" d="M12 19 Q35 5 72 16 L71 80 Q43 94 13 78 Q5 51 12 19Z"/>
+        <path class="monogram-outline" d="M75 16 Q108 3 139 18 Q132 37 112 48 Q134 61 138 79 Q105 95 76 81Z"/>
+        <path class="monogram-line" d="M20 49 Q43 46 69 50 M43 22 Q39 48 43 82"/>
+        <path class="monogram-line" d="M87 31 L117 39 L101 49 L119 65 L88 77 M94 50 L123 49"/>
+      </svg>
+    </header>
+
+    <main>
+      <section class="composition" aria-label="Les trois portes du carnet">
+        <section class="cluster petal-cluster" aria-labelledby="petal-heading">
+          <div class="petal-wheel" role="group" aria-label="Filtrer les travaux par catégorie">
+            <button class="petal petal-left-top" type="button" data-filter="croquis" aria-label="Afficher les croquis" aria-pressed="false">
+              <svg viewBox="0 0 160 64" aria-hidden="true"><path d="M7 32 Q31 4 80 7 Q127 8 153 31 Q121 56 77 57 Q30 58 7 32Z"/><path class="petal-echo" d="M10 34 Q36 10 82 10 Q127 10 150 32 Q119 52 78 54 Q34 55 10 34Z"/></svg>
+              <span>croquis</span>
+            </button>
+            <button class="petal petal-top" type="button" data-filter="numérique" aria-label="Afficher les travaux numériques" aria-pressed="false">
+              <svg viewBox="0 0 160 64" aria-hidden="true"><path d="M8 32 Q34 6 79 7 Q126 5 152 31 Q122 55 81 57 Q32 59 8 32Z"/><path class="petal-echo" d="M11 33 Q36 9 80 10 Q125 8 149 31 Q120 52 81 54 Q35 56 11 33Z"/></svg>
+              <span>numérique</span>
+            </button>
+            <button class="petal petal-right" type="button" data-filter="3d" aria-label="Afficher les travaux 3D" aria-pressed="false">
+              <svg viewBox="0 0 160 64" aria-hidden="true"><path d="M8 33 Q30 8 78 7 Q124 6 152 30 Q127 55 81 57 Q33 60 8 33Z"/><path class="petal-echo" d="M10 31 Q32 10 79 9 Q124 8 149 31 Q124 52 81 54 Q35 57 10 31Z"/></svg>
+              <span>3D</span>
+            </button>
+            <button class="petal petal-right-bottom" type="button" data-filter="études" aria-label="Afficher les études" aria-pressed="false">
+              <svg viewBox="0 0 160 64" aria-hidden="true"><path d="M8 31 Q34 7 82 7 Q125 7 153 33 Q123 56 80 57 Q31 59 8 31Z"/><path class="petal-echo" d="M11 32 Q35 10 82 10 Q125 10 150 33 Q121 53 80 54 Q34 57 11 32Z"/></svg>
+              <span>études</span>
+            </button>
+            <button class="petal petal-bottom" type="button" data-filter="notes" aria-label="Afficher les notes" aria-pressed="false">
+              <svg viewBox="0 0 160 64" aria-hidden="true"><path d="M7 32 Q31 5 79 7 Q128 8 153 31 Q126 56 79 57 Q32 58 7 32Z"/><path class="petal-echo" d="M10 32 Q33 8 79 10 Q126 10 150 31 Q124 53 79 54 Q34 57 10 32Z"/></svg>
+              <span>notes</span>
+            </button>
+            <button class="petal petal-left-bottom" type="button" data-filter="croquis" aria-label="Afficher d’autres croquis" aria-pressed="false">
+              <svg viewBox="0 0 160 64" aria-hidden="true"><path d="M8 31 Q35 6 80 7 Q127 7 153 31 Q124 56 79 57 Q33 58 8 31Z"/><path class="petal-echo" d="M10 33 Q35 9 80 10 Q125 9 150 31 Q123 53 79 54 Q34 56 10 33Z"/></svg>
+              <span>encore</span>
+            </button>
+            <button class="petal petal-left" type="button" data-filter="tout" aria-label="Afficher tous les travaux" aria-pressed="true">
+              <svg viewBox="0 0 160 64" aria-hidden="true"><path d="M7 32 Q31 4 80 7 Q127 8 153 31 Q121 56 77 57 Q30 58 7 32Z"/><path class="petal-echo" d="M10 34 Q36 10 82 10 Q127 10 150 32 Q119 52 78 54 Q34 55 10 34Z"/></svg>
+              <span>tout voir</span>
+            </button>
+            <h1 class="petal-center" id="petal-heading">clique<br>sur moi</h1>
+          </div>
+        </section>
+
+        <a class="cluster blob-cluster" href="#apropos" aria-label="En savoir plus, moi aussi">
+          <svg class="blob-art" viewBox="0 0 340 300" aria-hidden="true">
+            <path class="blob blob-outer" d="M168 17 C212 11 222 42 261 41 C306 39 322 73 310 111 C299 148 331 169 311 204 C292 237 253 230 229 263 C202 299 166 271 131 276 C91 282 78 253 49 240 C15 224 31 189 16 160 C-1 127 32 102 37 72 C43 39 81 36 111 47 C139 57 143 21 168 17Z"/>
+            <path class="blob blob-middle" d="M169 47 C204 40 218 67 247 68 C277 69 291 91 279 119 C267 149 298 168 276 195 C254 222 224 207 204 233 C183 259 157 239 129 244 C99 249 89 225 66 213 C39 199 51 174 40 151 C28 124 55 107 61 82 C67 57 97 55 120 64 C143 73 147 51 169 47Z"/>
+            <path class="blob blob-inner" d="M168 77 C194 72 205 92 227 91 C250 90 264 108 250 129 C235 151 266 165 246 186 C227 206 205 193 186 213 C168 233 145 218 124 222 C101 226 91 208 74 197 C55 185 66 165 58 147 C49 125 70 111 78 92 C86 73 108 75 127 82 C145 89 151 80 168 77Z"/>
+            <text x="169" y="152" text-anchor="middle">moi aussi</text>
+          </svg>
+        </a>
+
+        <section class="cluster archive-cluster" aria-labelledby="archive-heading">
+          <div class="work-stack">
+            <button class="work-card work-one" type="button" data-category="croquis" data-title="Étude — 01" data-description="Une place gardée pour un croquis." aria-label="Ouvrir Étude — 01">
+              <svg viewBox="0 0 120 120" aria-hidden="true"><path d="M11 8 L108 13 L105 110 L9 105Z"/><path class="tile-echo" d="M15 5 L111 17 L102 107 L6 110Z"/></svg>
+            </button>
+            <button class="work-card work-two" type="button" data-category="numérique" data-title="Essai — 02" data-description="Une place gardée pour une pièce numérique." aria-label="Ouvrir Essai — 02">
+              <svg viewBox="0 0 120 120" aria-hidden="true"><path d="M9 10 L109 7 L104 111 L13 106Z"/><path class="tile-echo" d="M5 14 L112 11 L108 106 L11 112Z"/></svg>
+            </button>
+            <button class="work-card work-three" type="button" data-category="3d" data-title="Volume — 03" data-description="Une place gardée pour une expérience en volume." aria-label="Ouvrir Volume — 03">
+              <svg viewBox="0 0 120 120" aria-hidden="true"><path d="M13 8 L109 15 L103 108 L8 103Z"/><path class="tile-echo" d="M9 12 L113 11 L108 112 L13 109Z"/></svg>
+            </button>
+            <button class="work-card work-four" type="button" data-category="études" data-title="Note — 04" data-description="Une place gardée pour une étude." aria-label="Ouvrir Note — 04">
+              <svg viewBox="0 0 120 120" aria-hidden="true"><path d="M8 13 L105 7 L111 106 L11 112Z"/><path class="tile-echo" d="M13 7 L112 13 L106 111 L7 103Z"/></svg>
+            </button>
+            <button class="work-card work-five" type="button" data-category="notes" data-title="Fragment — 05" data-description="Une place gardée pour une note." aria-label="Ouvrir Fragment — 05">
+              <svg viewBox="0 0 120 120" aria-hidden="true"><path d="M10 9 L107 11 L110 105 L8 109Z"/><path class="tile-echo" d="M6 13 L111 6 L104 112 L12 105Z"/></svg>
+            </button>
+            <button class="work-card work-six" type="button" data-category="croquis" data-title="Étude — 06" data-description="Une autre place gardée pour un croquis." aria-label="Ouvrir Étude — 06">
+              <svg viewBox="0 0 120 120" aria-hidden="true"><path d="M12 7 L108 12 L104 109 L9 104Z"/><path class="tile-echo" d="M8 12 L111 8 L109 105 L12 113Z"/></svg>
+            </button>
+            <h2 id="archive-heading">c’est moi<br>tranquille</h2>
+            <!-- This non-modal viewer leaves the rest of the page clickable to close it. -->
+            <div class="work-viewer" role="dialog" aria-modal="false" aria-labelledby="viewer-title" aria-describedby="viewer-description" tabindex="-1" hidden>
+              <button class="viewer-close" type="button" aria-label="Fermer le carnet">×</button>
+              <div class="viewer-artwork">
+                <div class="artwork-placeholder" aria-hidden="true">
+                  <svg viewBox="0 0 100 80"><path d="M19 54 Q23 19 43 31 T72 26 Q83 33 77 57 Q52 72 19 54Z"/><path d="M30 50 Q44 38 57 47 T72 40"/></svg>
+                  <span>visuel à venir</span>
+                </div>
+              </div>
+              <div class="viewer-footer">
+                <button class="viewer-nav viewer-previous" type="button" aria-label="Page précédente" hidden>→</button>
+                <div class="viewer-caption">
+                  <p class="viewer-category" id="viewer-category"></p>
+                  <h3 id="viewer-title"></h3>
+                  <p id="viewer-description"></p>
+                  <span class="viewer-count" id="viewer-count"></span>
+                </div>
+                <button class="viewer-nav viewer-next" type="button" aria-label="Page suivante">←</button>
+              </div>
+              <p class="sr-only" id="viewer-status" aria-live="polite"></p>
+            </div>
+          </div>
+          <p class="sr-only" id="filter-status" aria-live="polite">tout le carnet, sans se presser</p>
+        </section>
+      </section>
+
+      <section class="about-section" id="apropos" aria-labelledby="about-heading">
+        <p class="eyebrow">un mot dans la marge</p>
+        <h2 id="about-heading">Bienvenue dans mon carnet.</h2>
+        <p>Un petit espace pour les idées, les essais et les choses qui prennent leur temps.</p>
+        <a href="#petal-heading">retourner jouer ↑</a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a href="https://www.instagram.com/h0p3_lemoi/" target="_blank" rel="noreferrer">ig: h0p3_lemoi ↗</a>
+      <span>copyright @ 2026 summer</span>
+    </footer>
+  </body>
+</html>

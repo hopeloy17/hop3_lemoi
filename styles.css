@@ -1,0 +1,811 @@
+:root {
+  color-scheme: light;
+  --paper: #f7f5f0;
+  --ink: #1e1e1e;
+  --soft-ink: rgb(30 30 30 / 65%);
+  --blue: #244fe0;
+  --yellow: #f6e86b;
+  --hand: "Segoe Print", "Comic Sans MS", cursive;
+  --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+/* Ten solid colorways replace the ruled notebook page without changing the layout. */
+body[data-theme="1"] { --paper: #fffaf0; }
+body[data-theme="2"] { --paper: #eaf1f7; }
+body[data-theme="3"] { --paper: #faecea; }
+body[data-theme="4"] { --paper: #f1ebf8; }
+body[data-theme="5"] { --paper: #edf2e8; }
+body[data-theme="6"] { --paper: #fff1c8; }
+body[data-theme="7"] { --paper: #e7f2ef; }
+body[data-theme="8"] { --paper: #eee7dd; }
+body[data-theme="9"] {
+  --paper: #20232c;
+  --ink: #f7f5f0;
+  --soft-ink: rgb(247 245 240 / 68%);
+  --blue: #91aaff;
+  --yellow: #ffe56a;
+  color-scheme: dark;
+}
+
+/* Shared resets keep button and link controls visually part of the drawing. */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  color: var(--ink);
+  background-color: var(--paper);
+  font-family: var(--mono);
+  transition: background-color 240ms ease, color 240ms ease;
+}
+
+button,
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+}
+
+a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.site-header,
+main,
+.site-footer {
+  width: min(1120px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.site-header {
+  position: relative;
+  height: 225px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+/* The theme button stays in the margin so it never competes with the logo. */
+.theme-button {
+  position: absolute;
+  top: 16px;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 9px;
+  border: 1px solid var(--soft-ink);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  cursor: pointer;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.theme-button:hover,
+.theme-button:focus-visible {
+  background: var(--yellow);
+  color: #1e1e1e;
+}
+
+.brand {
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-name {
+  display: block;
+  font-family: var(--hand);
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  font-weight: 500;
+  letter-spacing: -0.13em;
+  line-height: 1.2;
+  transform: rotate(-4deg);
+}
+
+.monogram {
+  width: 138px;
+  overflow: visible;
+}
+
+.monogram path {
+  fill: none;
+  stroke: var(--ink);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.monogram-outline {
+  stroke-width: 2.2;
+  stroke-dasharray: 330;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 800ms ease;
+}
+
+.monogram-line {
+  stroke-width: 2.5;
+}
+
+.site-header:hover .monogram-outline,
+.site-header:focus-within .monogram-outline {
+  stroke-dashoffset: 330;
+  animation: draw-monogram 1.2s ease forwards;
+}
+
+@keyframes draw-monogram {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.composition {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(290px, 0.8fr);
+  grid-template-areas:
+    "petals blob"
+    "archive archive";
+  align-items: center;
+  gap: 0 16px;
+  padding: 2px 0 0;
+}
+
+.cluster {
+  position: relative;
+}
+
+.petal-cluster {
+  grid-area: petals;
+  min-width: 0;
+  min-height: 410px;
+  display: grid;
+  place-items: center;
+}
+
+.petal-wheel {
+  position: relative;
+  width: 460px;
+  height: 390px;
+  flex: none;
+}
+
+/* Each leaf is its own filter target, while the central prompt remains the visual anchor. */
+.petal {
+  position: absolute;
+  z-index: 1;
+  width: 154px;
+  height: 64px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transform: var(--petal-transform);
+  transition: transform 230ms ease, color 180ms ease;
+}
+
+.petal svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.petal path {
+  fill: transparent;
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: fill 180ms ease, stroke 180ms ease;
+}
+
+.petal path.petal-echo {
+  fill: none;
+  stroke-width: 1.1;
+  opacity: 0.66;
+}
+
+.petal span {
+  position: relative;
+  display: inline-block;
+  font-family: var(--hand);
+  font-size: 0.66rem;
+  opacity: 0.62;
+  transform: rotate(var(--label-tilt, 0deg));
+}
+
+.petal:hover,
+.petal:focus-visible,
+.petal[aria-pressed="true"] {
+  z-index: 3;
+  color: var(--blue);
+  transform: var(--petal-transform) scale(1.08);
+}
+
+.petal:hover path:first-child,
+.petal:focus-visible path:first-child,
+.petal[aria-pressed="true"] path:first-child {
+  fill: rgb(246 232 107 / 35%);
+  stroke: var(--blue);
+}
+
+.petal-left-top {
+  top: 57px;
+  left: 18px;
+  --petal-transform: rotate(48deg);
+  --label-tilt: -48deg;
+}
+
+.petal-top {
+  top: 8px;
+  left: 179px;
+  --petal-transform: rotate(-48deg);
+  --label-tilt: 48deg;
+}
+
+.petal-right {
+  top: 137px;
+  right: 3px;
+  --petal-transform: rotate(-5deg);
+  --label-tilt: 5deg;
+}
+
+.petal-right-bottom {
+  right: 36px;
+  bottom: 60px;
+  --petal-transform: rotate(48deg);
+  --label-tilt: -48deg;
+}
+
+.petal-bottom {
+  bottom: -7px;
+  left: 140px;
+  --petal-transform: rotate(82deg);
+  --label-tilt: -82deg;
+}
+
+.petal-left-bottom {
+  bottom: 35px;
+  left: 14px;
+  --petal-transform: rotate(58deg);
+  --label-tilt: -58deg;
+}
+
+.petal-left {
+  top: 162px;
+  left: -7px;
+  --petal-transform: rotate(-3deg);
+  --label-tilt: 3deg;
+}
+
+.petal:focus-visible,
+.work-card:focus-visible,
+.blob-cluster:focus-visible,
+.site-footer a:focus-visible {
+  outline: 2px dashed var(--blue);
+  outline-offset: 5px;
+}
+
+.petal-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  width: 120px;
+  margin: 0;
+  padding: 5px 0;
+  background: var(--paper);
+  font-family: var(--hand);
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.06;
+  text-align: center;
+  transform: translate(-50%, -50%) rotate(-12deg);
+  pointer-events: none;
+}
+
+.blob-cluster {
+  grid-area: blob;
+  width: min(100%, 350px);
+  justify-self: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* The three outlines breathe independently instead of morphing into new silhouettes. */
+.blob-art {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.blob {
+  fill: transparent;
+  stroke: var(--ink);
+  stroke-width: 2.3;
+  stroke-linejoin: round;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.blob-outer {
+  animation: breathe 8s ease-in-out infinite alternate;
+}
+
+.blob-middle {
+  animation: breathe 7s ease-in-out infinite alternate-reverse;
+}
+
+.blob-inner {
+  animation: breathe 6s ease-in-out infinite alternate;
+}
+
+@keyframes breathe {
+  from {
+    transform: rotate(-1.5deg) scale(0.99);
+  }
+  to {
+    transform: rotate(1.5deg) scale(1.015);
+  }
+}
+
+.blob-art text {
+  fill: var(--ink);
+  font-family: var(--hand);
+  font-size: 19px;
+}
+
+.blob-cluster:hover .blob {
+  stroke: var(--blue);
+}
+
+.archive-cluster {
+  grid-area: archive;
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  padding: 5px 0 0;
+}
+
+.work-stack {
+  position: relative;
+  width: 400px;
+  height: 300px;
+}
+
+.work-card {
+  position: absolute;
+  z-index: 1;
+  width: 132px;
+  height: 132px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 220ms ease;
+}
+
+.work-card svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.work-card path {
+  fill: rgb(247 245 240 / 12%);
+  stroke: var(--ink);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 160ms ease, fill 160ms ease;
+}
+
+.work-card path.tile-echo {
+  fill: none;
+  stroke-width: 1;
+  opacity: 0.65;
+}
+
+.work-one {
+  top: 1px;
+  left: 75px;
+  transform: rotate(-37deg);
+  --spread-transform: translate(-65px, -45px) rotate(-52deg);
+}
+
+/* The opened pile fans toward the margins to leave a clear pocket for the artwork. */
+.work-two {
+  top: 10px;
+  left: 150px;
+  transform: rotate(-4deg);
+  --spread-transform: translate(-5px, -89px) rotate(5deg);
+}
+
+.work-three {
+  top: 24px;
+  left: 226px;
+  transform: rotate(9deg);
+  --spread-transform: translate(72px, -45px) rotate(28deg);
+}
+
+.work-four {
+  top: 88px;
+  left: 46px;
+  transform: rotate(-7deg);
+  --spread-transform: translate(-91px, 42px) rotate(-18deg);
+}
+
+.work-five {
+  top: 139px;
+  left: 200px;
+  transform: rotate(43deg);
+  --spread-transform: translate(91px, 56px) rotate(55deg);
+}
+
+.work-six {
+  top: 157px;
+  left: 112px;
+  transform: rotate(-11deg);
+  --spread-transform: translate(5px, 103px) rotate(-28deg);
+}
+
+.archive-cluster.is-open .work-card {
+  transform: var(--spread-transform);
+  transition-duration: 720ms;
+}
+
+.archive-cluster:not(.is-open) .work-card {
+  transition-duration: 1050ms;
+}
+
+.work-card:hover,
+.work-card:focus-visible {
+  z-index: 4;
+  transform: rotate(0) scale(1.08);
+}
+
+.archive-cluster.is-open .work-card:hover,
+.archive-cluster.is-open .work-card:focus-visible {
+  transform: var(--spread-transform) scale(1.08);
+}
+
+.work-card:hover path:first-child,
+.work-card:focus-visible path:first-child {
+  fill: rgb(246 232 107 / 42%);
+  stroke: var(--blue);
+}
+
+.archive-cluster h2 {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  z-index: 5;
+  margin: 0;
+  padding: 4px 7px;
+  background: var(--paper);
+  font-family: var(--hand);
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.02;
+  text-align: center;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  pointer-events: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.about-section {
+  max-width: 520px;
+  margin: 14px auto 34px;
+  padding: 15px 20px;
+  border-top: 1px solid var(--soft-ink);
+  text-align: center;
+  scroll-margin-top: 24px;
+}
+
+.about-section .eyebrow {
+  margin-bottom: 5px;
+  font-family: var(--hand);
+  font-size: 1rem;
+}
+
+.about-section h2 {
+  margin-bottom: 5px;
+  font-family: var(--hand);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.about-section > p:not(.eyebrow) {
+  margin-bottom: 7px;
+  font-size: 0.72rem;
+}
+
+.about-section a {
+  color: var(--blue);
+  font-size: 0.65rem;
+}
+
+.site-footer {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid var(--ink);
+  font-size: 0.7rem;
+}
+
+.site-footer a {
+  text-decoration: none;
+}
+
+/* This viewer is deliberately non-modal: a click outside can close it immediately. */
+.work-viewer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 8;
+  width: min(278px, calc(100vw - 48px));
+  padding: 13px;
+  border: 1.5px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 5px 6px 0 rgb(30 30 30 / 15%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -47%) scale(0.94);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.work-viewer.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.viewer-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  background: transparent;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.viewer-artwork {
+  height: 150px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 10px;
+  border: 1px dashed var(--soft-ink);
+  touch-action: pan-y;
+  user-select: none;
+  cursor: grab;
+}
+
+.viewer-artwork:active {
+  cursor: grabbing;
+}
+
+.artwork-placeholder {
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  color: var(--soft-ink);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+}
+
+.artwork-placeholder svg {
+  width: 66px;
+  height: 56px;
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.viewer-footer {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+/* Fixed columns keep the title centered when an end-of-book arrow is hidden. */
+.viewer-previous { grid-column: 1; }
+.viewer-caption { grid-column: 2; }
+.viewer-next { grid-column: 3; }
+
+.viewer-nav {
+  width: 28px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.viewer-nav:hover,
+.viewer-close:hover {
+  color: var(--blue);
+}
+
+.viewer-caption {
+  min-width: 0;
+}
+
+.viewer-category {
+  margin: 0 0 2px;
+  color: var(--soft-ink);
+  font-size: 0.56rem;
+  text-transform: uppercase;
+}
+
+.viewer-caption h3 {
+  margin: 0;
+  font-family: var(--hand);
+  font-size: 0.93rem;
+  font-weight: 500;
+}
+
+.viewer-caption p#viewer-description {
+  margin: 3px 0;
+  font-size: 0.59rem;
+}
+
+.viewer-count {
+  color: var(--soft-ink);
+  font-size: 0.55rem;
+}
+
+.work-viewer:focus-visible,
+.viewer-close:focus-visible,
+.viewer-nav:focus-visible {
+  outline: 2px dashed var(--blue);
+  outline-offset: 3px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  /* Scaling preserves the hand-drawn cluster proportions on narrow screens. */
+  .site-header,
+  main,
+  .site-footer {
+    width: min(100% - 32px, 560px);
+  }
+
+  .site-header {
+    height: 195px;
+  }
+
+  .composition {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "petals"
+      "blob"
+      "archive";
+    gap: 0;
+    padding-top: 0;
+  }
+
+  .petal-cluster {
+    min-height: 350px;
+  }
+
+  .petal-wheel {
+    transform: scale(0.88);
+  }
+
+  .blob-cluster {
+    width: min(310px, 88%);
+    margin: -4px auto 6px;
+  }
+
+  .archive-cluster {
+    padding-top: 0;
+  }
+
+  .work-stack {
+    transform: scale(0.9);
+    transform-origin: top center;
+    margin-bottom: -30px;
+  }
+
+  .archive-cluster.is-open .work-stack {
+    transform: scale(0.86);
+  }
+
+  .about-section {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 430px) {
+  .site-header,
+  main,
+  .site-footer {
+    width: calc(100% - 24px);
+  }
+
+  .petal-wheel {
+    transform: scale(0.74);
+  }
+
+  .petal-cluster {
+    min-height: 310px;
+  }
+
+  .work-stack {
+    transform: scale(0.75);
+    margin-bottom: -75px;
+  }
+
+  .archive-cluster.is-open .work-stack {
+    transform: scale(0.82);
+  }
+}
+
+@media (max-width: 350px) {
+  .petal-wheel {
+    transform: scale(0.64);
+  }
+
+  .petal-cluster {
+    min-height: 275px;
+  }
+
+  .work-stack {
+    transform: scale(0.67);
+    margin-bottom: -99px;
+  }
+
+  .archive-cluster.is-open .work-stack {
+    transform: scale(0.75);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
